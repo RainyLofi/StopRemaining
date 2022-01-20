@@ -1,3 +1,5 @@
+script.Name = 'Escort'
+
 --[[
 
        _____ __              ____                       _       _
@@ -9,25 +11,31 @@
 
     -- Stop Remaining
     -- By: RainyLofi
+
+    ObjectiveHandler
 ]]--
 --------------------------------------------------------------------------------------------
 
-_G.Settings = {
+local SR = _G.SR
 
-}
+local Modules = SR.Modules
+local Signal, Signals = Modules.Signal, SR.Signals
+local Shared = Modules.Shared
 
 --------------------------------------------------------------------------------------------
 
-_G.Import = function(Source: string, JSON: boolean)
-	local RunService, HttpService = game:GetService('RunService'), game:GetService('HttpService')
-	local Repo = 'https://raw.githubusercontent.com/RainyLofi/StopRemaining/main/new/'
-	if JSON then
-		return RunService:IsStudio() and HttpService:JSONDecode(script:WaitForChild(Source)) or HttpService:JSONDecode(game:HttpGet(Repo .. Source .. '.json', true))
-	elseif RunService:IsStudio() then
-		return require(script:WaitForChild(Source))
-	else
-		return loadstring(game:HttpGet(Repo .. Source .. '.lua', true), Source)()
-	end
+local Objective = {}
+Objective.Run = function(Data)
+    local Name, Object, Point = Data.Name, Data.Object, Data.Point
+    if Object.Parent == nil or Point.Parent == nil then return end
+
+    Shared.Functions.NoClip(true)
+    local Part = Shared.Functions.FloatingPart()
+    local Target = Object.PrimaryPart
+
+    local CF = CFrame.new(Target.Position) * CFrame.new(0, _G.Settings.SafeHeight, 0)
+    Part.CFrame = CF * CFrame.new(0, -3.5, 0)
+    Shared.Functions.Teleport(CF)
 end
 
-_G.Import('init.client')
+return Objective

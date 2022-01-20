@@ -54,7 +54,8 @@ OS.RegisterObjectiveMarkers.OnClientEvent:Connect(function(Markers, Parent)
 
             Signals.ObjectiveAdded:Fire({
                 Object = Parent,
-                Name = Parent.Name
+                Name = Parent.Name,
+                Point = Data.point
             })
 
             local Connection = nil
@@ -69,11 +70,33 @@ OS.RegisterObjectiveMarkers.OnClientEvent:Connect(function(Markers, Parent)
     end
 end)
 
-repeat task.wait() until Signals.StageUpdated
-
-Signals.StageUpdated:Connect(function(StageData)
-    if StageData['Stage'] == 'End' then
-       Signals.CarryingChanged:Fire(nil)
-       for _, Objective in pairs(SR.Objectives) do Signals.ObjectiveRemoving:Fire(Objective.Name) end
-    end
+task.spawn(function()
+    repeat task.wait() until Signals.StageUpdated
+    Signals.StageUpdated:Connect(function(StageData)
+        if StageData['Stage'] == 'End' then
+            Signals.CarryingChanged:Fire(nil)
+            for _, Objective in pairs(SR.Objectives) do Signals.ObjectiveRemoving:Fire(Objective.Name) end
+        end
+    end)
 end)
+
+--------------------------------------------------------------------------------------------
+
+local Objectives, ObjectiveModules = {
+    'Escort',
+}, {}
+for _, Objective in pairs(Objectives) do
+    ObjectiveModules[Objective] = _G.Import('Modules/Objectives/' .. Objective)
+end
+
+local DoObjective = function() -- should be called each frame
+    if #SR.Objectives == 0 then return false end
+
+    local Objective = SR.Objectives[1] -- the first objective
+    local ObjectiveModule = ObjectiveModules[Objective.Name]
+    if ObjectiveModule then
+        return ObjectiveModule.Run(Objective)
+    end
+end
+
+return DoObjective

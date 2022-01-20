@@ -32,9 +32,7 @@ local ServiceRemotes = ReplicatedStorage:WaitForChild('ServiceRemotes')
 local SR = {
     Stage = 'Unknown',
 
-    Modules = {
-        Signal = _G.Import('Modules/Signal'),
-    },
+    Modules = {},
 
     CarryingItem = nil,
     Objectives = {},
@@ -45,6 +43,11 @@ local SR = {
         RegisterObjectiveMarkers = ServiceRemotes.ObjectiveService:WaitForChild('RegisterObjectiveMarkers'),
         ProgressedObjective = ServiceRemotes.ObjectiveService:WaitForChild('ProgressedObjective'),
         ObjectiveCompleted = ServiceRemotes.ObjectiveService:WaitForChild('ObjectiveCompleted'),
+        HitDamageable = ServiceRemotes.ObjectiveService:WaitForChild('HitDamageable'),
+    },
+
+    InteractionService = {
+        TryInteract = ServiceRemotes.InteractionService:WaitForChild('TryInteract'),
     },
 
     RE = ReplicatedStorage:WaitForChild('RE'),
@@ -54,7 +57,12 @@ local SR = {
 } -- shared
 _G.SR = SR
 
+SR.Modules.Signal = _G.Import('Modules/Signal')
+SR.Modules.Shared = _G.Import('Modules/Shared')
+
 --------------------------------------------------------------------------------------------
 
 _G.Import('Modules/REHandler')
-_G.Import('Modules/ObjectiveHandler')
+local OH = _G.Import('Modules/ObjectiveHandler')
+
+game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Character, OH)
