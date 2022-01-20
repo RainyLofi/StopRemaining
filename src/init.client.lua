@@ -24,15 +24,37 @@ repeat task.wait() until Players and Players.LocalPlayer and game.PlaceId
 
 -- Setup shared variables
 local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild('PlayerGui')
+Player:WaitForChild('PlayerGui')
 
-local StopRemaining = {
+local ReplicatedStorage = game:GetService('ReplicatedStorage')
+local ServiceRemotes = ReplicatedStorage:WaitForChild('ServiceRemotes')
+
+local SR = {
+    Stage = 'Unknown',
+
     Modules = {
         Signal = _G.Import('Modules/Signal'),
+    },
 
-    }
+    CarryingItem = nil,
+    Objectives = {},
+    ObjectiveService = {
+        UpdateCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('UpdateCarryingItem'),
+        RemoveCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('RemoveCarryingItem'),
+        AlreadyCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('AlreadyCarryingItem'),
+        RegisterObjectiveMarkers = ServiceRemotes.ObjectiveService:WaitForChild('RegisterObjectiveMarkers'),
+        ProgressedObjective = ServiceRemotes.ObjectiveService:WaitForChild('ProgressedObjective'),
+        ObjectiveCompleted = ServiceRemotes.ObjectiveService:WaitForChild('ObjectiveCompleted'),
+    },
 
+    RE = ReplicatedStorage:WaitForChild('RE'),
+    RF = ReplicatedStorage:WaitForChild('RF'),
+
+    Signals = {},
 } -- shared
-_G.SR = StopRemaining
+_G.SR = SR
 
-print(StopRemaining.Modules.Signal)
+--------------------------------------------------------------------------------------------
+
+_G.Import('Modules/REHandler')
+_G.Import('Modules/ObjectiveHandler')
