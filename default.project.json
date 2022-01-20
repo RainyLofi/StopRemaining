@@ -1,0 +1,11 @@
+{
+    "name": "StopRemaining",
+    "tree": {
+        "$className": "DataModel",
+
+        "ReplicatedFirst": {
+            "$className": "ReplicatedFirst",
+            "$path": "src"
+        }
+    }
+}
