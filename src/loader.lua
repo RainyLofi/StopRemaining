@@ -20,7 +20,7 @@ _G.Settings = {
 
 _G.Import = function(Source: string, JSON: boolean)
 	local RunService, HttpService = game:GetService('RunService'), game:GetService('HttpService')
-	local Repo = 'https://raw.githubusercontent.com/RainyLofi/ThoseWhoRemain/main/new/'
+	local Repo = 'https://raw.githubusercontent.com/RainyLofi/StopRemaining/main/new/'
 	if JSON then
 		return RunService:IsStudio() and HttpService:JSONDecode(script:WaitForChild(Source)) or HttpService:JSONDecode(game:HttpGet(Repo .. Source .. '.json', true))
 	elseif RunService:IsStudio() then
