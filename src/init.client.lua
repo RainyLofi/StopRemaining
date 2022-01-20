@@ -35,3 +35,4 @@ local StopRemaining = {
 } -- shared
 _G.SR = StopRemaining
 
+print(StopRemaining.Modules.Signal)
