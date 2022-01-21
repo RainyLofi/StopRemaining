@@ -45,7 +45,10 @@ Shared.Functions.Teleport = function(CF)
 
     for _, Child in pairs(Character:GetChildren()) do
         if Child:IsA('BasePart') then
-            table.foreach(getconnections(Child.Changed), function(_, Con) Con:Disconnect() end)
+            local Connections = getconnections(Child.Changed)
+            for _, Con in pairs(Connections) do
+                Con:Disable()
+            end
         end
     end
 
