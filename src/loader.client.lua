@@ -20,13 +20,20 @@ _G.Settings = {
 
 _G.Import = function(Source: string, JSON: boolean)
 	local RunService, HttpService = game:GetService('RunService'), game:GetService('HttpService')
-	local Repo = 'https://raw.githubusercontent.com/RainyLofi/StopRemaining/main/new/'
+	local Repo = 'https://raw.githubusercontent.com/RainyLofi/StopRemaining/main/src/'
 	if JSON then
 		return RunService:IsStudio() and HttpService:JSONDecode(script:WaitForChild(Source)) or HttpService:JSONDecode(game:HttpGet(Repo .. Source .. '.json', true))
 	elseif RunService:IsStudio() then
 		return require(script:WaitForChild(Source))
 	else
-		return loadstring(game:HttpGet(Repo .. Source .. '.lua', true), Source)()
+		local Success, Result = pcall(function()
+			return game:HttpGet(Repo .. Source .. '.lua', true)
+		end)
+		if Success then
+			return loadstring(Result, Source)()
+		else
+			warn('Failed to get source', Repo .. Source .. '.lua')
+		end
 	end
 end
 
