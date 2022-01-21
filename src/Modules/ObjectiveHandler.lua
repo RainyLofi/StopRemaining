@@ -83,11 +83,14 @@ end)
 --------------------------------------------------------------------------------------------
 
 local Objectives, ObjectiveModules = {
-    'EscortChar',
+    'EscortChar', 'Car',
 }, {}
 for _, Objective in pairs(Objectives) do
     ObjectiveModules[Objective] = _G.Import('Modules/Objectives/' .. Objective)
 end
+
+ObjectiveModules['Silverado'] = ObjectiveModules['Car']
+ObjectiveModules['Tundra'] = ObjectiveModules['Tundra']
 
 local DoObjective = function() -- should be called each frame
     if #SR.Objectives == 0 then return false end

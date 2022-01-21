@@ -21,6 +21,7 @@ local Player = Players.LocalPlayer
 
 local Workspace = game:GetService('Workspace')
 local Ignore = Workspace:WaitForChild('Ignore')
+local Camera = Workspace.CurrentCamera
 
 local RunService = game:GetService('RunService')
 
@@ -79,22 +80,29 @@ Shared.Functions.PlaceFort = function(Fort, CF)
     })
 end
 
-Shared.Functions.Pickup = function(Obj)
+Shared.Functions.Pickup = function(Obj, Pos, CheckInteract)
+    if Pos then Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Pos) task.wait() end
     IS.TryInteract:FireServer()
-    RF:InvokeServer(
-        'CheckInteract',
-        {
-            ['Target'] = {
-                ['Mag'] = math.random(3.234, 4.567), -- magnitude/distance
-                ['Type'] = 'Item',
-                ['CanInteract'] = true,
-                ['Obj'] = Obj
+
+    if CheckInteract then
+        RF:InvokeServer(
+            'CheckInteract',
+            {
+                ['Target'] = {
+                    ['Mag'] = math.random(3.234, 4.567), -- magnitude/distance
+                    ['Type'] = 'Item',
+                    ['CanInteract'] = true,
+                    ['Obj'] = Obj
+                }
             }
-        }
-    )
+        )
+    end
 end
 
-Shared.Functions.PlaceItem = function() IS.TryInteract:FireServer() end
+Shared.Functions.PlaceItem = function(Pos)
+    if Pos then Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Pos) task.wait() end
+    IS.TryInteract:FireServer()
+end
 
 Shared.NoClip = false
 Shared.Functions.NoClip = function(State) Shared.NoClip = State end
