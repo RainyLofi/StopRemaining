@@ -27,16 +27,22 @@ local Shared = Modules.Shared
 local Objective = {}
 
 Objective.Run = function(Data)
+    print('1')
     local Name, Object, Point = Data.Name, Data.Object, Data.Point
     if Object.Parent == nil or Point.Parent == nil then return end
+
+    print('2')
 
     Shared.Functions.NoClip(true)
     local Part = Shared.Functions.FloatingPart()
     local Target = Object.PrimaryPart
 
     local Body = Object:FindFirstChild('Body'); if not Body then return false end
+    print('3')
     local Trailer = Body:FindFirstChild('Trailer'); if not Trailer then return false end
+    print('4')
     local Tank = Trailer:FindFirstChild('Tank'); if not Tank then return false end
+    print('5')
 
     local CF = CFrame.new(Target.Position) * CFrame.new(0, _G.Settings.SafeHeight, 0)
     Part.CFrame = CF * CFrame.new(0, -3.5, 0)
