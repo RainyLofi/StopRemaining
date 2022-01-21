@@ -64,5 +64,6 @@ SR.Modules.Shared = _G.Import('Modules/Shared')
 
 _G.Import('Modules/REHandler')
 local OH = _G.Import('Modules/ObjectiveHandler')
+print(OH)
 
 game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Character.Value, OH)
