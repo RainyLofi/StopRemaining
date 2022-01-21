@@ -88,7 +88,10 @@ Objective.Run = function(Data)
 
     local SelectedItem = SR.CarryingItem
     local Tasks = Objective.GetTasks(Object.Name, Object.Parent)
-    if #Tasks <= 0 then return end
+    if #Tasks <= 0 then
+        warn('No tasks?')
+        return
+    end
 
     local Task = nil
     for _, T in pairs(Tasks) do
@@ -102,6 +105,8 @@ Objective.Run = function(Data)
         Shared.Functions.Teleport(Task.Part.CFrame * CFrame.new(0, 3.5, 0))
         task.wait(.2)
         Shared.Functions.PlaceItem(Task.Part.Position)
+    else
+        warn('No task found for', SelectedItem)
     end
 end
 

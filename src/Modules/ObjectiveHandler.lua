@@ -22,6 +22,7 @@ local SR = _G.SR
 
 local Modules = SR.Modules
 local Signal, Signals = Modules.Signal, SR.Signals
+local Shared = Modules.Shared
 
 local OS = SR.ObjectiveService
 
@@ -76,6 +77,7 @@ task.spawn(function()
         if StageData['Stage'] == 'End' then
             Signals.CarryingChanged:Fire(nil)
             for _, Objective in pairs(SR.Objectives) do Signals.ObjectiveRemoving:Fire(Objective.Name) end
+            Shared.Functions.NoClip(false)
         end
     end)
 end)

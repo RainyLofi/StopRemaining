@@ -33,6 +33,7 @@ local Signal, Signals = Modules.Signal, SR.Signals
 local RE = SR.RE
 local RF = SR.RF
 local IS = SR.InteractionService
+local OS = SR.ObjectiveService
 
 --------------------------------------------------------------------------------------------
 
@@ -78,6 +79,11 @@ Shared.Functions.PlaceFort = function(Fort, CF)
         ['PlaceCF'] = CF,
         ['FortName'] = Fort
     })
+end
+
+Shared.Functions.ShootTank = function(Tank)
+    Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Tank.Position)
+    OS.HitDamageable:FireServer(Tank)
 end
 
 Shared.Functions.Pickup = function(Obj, Pos, CheckInteract)
