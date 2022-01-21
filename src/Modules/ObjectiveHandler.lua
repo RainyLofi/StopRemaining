@@ -83,7 +83,7 @@ end)
 --------------------------------------------------------------------------------------------
 
 local Objectives, ObjectiveModules = {
-    'Escort',
+    'EscortChar',
 }, {}
 for _, Objective in pairs(Objectives) do
     ObjectiveModules[Objective] = _G.Import('Modules/Objectives/' .. Objective)
@@ -100,3 +100,67 @@ local DoObjective = function() -- should be called each frame
 end
 
 return DoObjective
+
+--[[ 
+    Game:GetService("ReplicatedStorage").ServiceRemotes.ObjectiveService.RegisterObjectiveMarkers:OnClientEvent(
+    {
+        ["Tire1"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").World.Objectives.Part,
+            ["display"] = Game:GetService("Workspace").World.Objectives.Part.DisplayText,
+            ["size"] = 18,
+            ["ended"] = false
+        },
+        ["Tire2"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").World.Objectives.Part,
+            ["display"] = Game:GetService("Workspace").World.Objectives.Part.DisplayText,
+            ["size"] = 18,
+            ["ended"] = false
+        },
+        ["Fuel Tank"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").World.Objectives.Part,
+            ["display"] = Game:GetService("Workspace").World.Objectives.Part.DisplayText,
+            ["size"] = 18,
+            ["ended"] = false
+        },
+        ["Main Marker"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").World.Objectives.Silverado.Part,
+            ["display"] = Game:GetService("Workspace").World.Objectives.Silverado.Part.Icon,
+            ["size"] = 18,
+            ["ended"] = false
+        },
+        ["Engine"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").World.Objectives.Part,
+            ["display"] = Game:GetService("Workspace").World.Objectives.Part.DisplayText,
+            ["size"] = 18,
+            ["ended"] = false
+        }
+    },
+    Game:GetService("Workspace").World.Objectives.Silverado
+)
+Script: Game:GetService("Players").RhythmeticShots.PlayerScripts.FrameworkClient-- CLIENT EVENT CALLED! --
+]]
+
+--[[Game:GetService("ReplicatedStorage").ServiceRemotes.ObjectiveService.RegisterObjectiveMarkers:OnClientEvent(
+    {
+        ["Main Marker"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").Entities.Objectives.EscortChar.Part,
+            ["display"] = Game:GetService("Workspace").Entities.Objectives.EscortChar.Part.Icon,
+            ["size"] = 18,
+            ["ended"] = false
+        },
+        ["Description Marker"] = {
+            ["offset"] = Vector3.new(0, 1.5, 0),
+            ["point"] = Game:GetService("Workspace").Entities.Objectives.EscortChar.Part,
+            ["display"] = Game:GetService("Workspace").Entities.Objectives.EscortChar.Part.DisplayText,
+            ["size"] = 18,
+            ["ended"] = false
+        }
+    },
+    Game:GetService("Workspace").Entities.Objectives.EscortChar
+)]]--
