@@ -39,18 +39,6 @@ local Keybinds = {
             Shared.Functions.NoClip(false)
         end
     end,
-    [Enum.KeyCode.Three] = function()
-        local Character = Player.Character; if not Character or not Character.Parent then return false end
-        local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
-
-        Shared.Functions.PlaceFort('Barbed Wire', HRP)
-    end,
-    [Enum.KeyCode.Four] = function()
-        local Character = Player.Character; if not Character or not Character.Parent then return false end
-        local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
-
-        Shared.Functions.PlaceFort('Clap Bomb', HRP)
-    end,
 }
 
 UIS.InputBegan:Connect(function(Input)
@@ -61,5 +49,7 @@ UIS.InputBegan:Connect(function(Input)
         if Func and not Textbox then Func() end
     end
 end)
+
+
 
 return Keybinds
