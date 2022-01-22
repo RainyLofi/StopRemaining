@@ -45,6 +45,19 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
             Weapon.Stats.RecoilShake = _G.Settings.Recoil
             Weapon.Stats.MaxPen = _G.Settings.Penetration
 
+            if Weapon.Stats.WeaponType == 'Gun' then
+                if Weapon.Animations and Weapon.Animations.Reload then
+                    local Reload = Weapon.Animations.Reload
+                    for _, Part in pairs(Reload.Sequence) do
+                        if Part.Time >= 0.3 then
+                            Part.Time *= 0.5
+                        else
+                            Part.Time = math.max(Part.Time, Part.Time * .8)
+                        end
+                    end
+                end
+            end
+
             --[[if Weapon.Stats.Type == 'Flamethrower' then
                 Weapon.Stats.Range = 250
             end]]--
