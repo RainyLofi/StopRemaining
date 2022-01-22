@@ -161,12 +161,13 @@ methods.RemoteEvent = hookfunc(Instance.new("RemoteEvent").FireServer, NameCallb
 methods.RemoteFunction = hookfunc(Instance.new("RemoteFunction").InvokeServer, NameCallback)
 
 local function IsAuthorized(self, index)
-	return (index == "Fire" or index == "Invoke" or index == "FireServer" or index == "InvokeServer") and enabled[self.ClassName] and index ~= 'IsA'
+	return (index == "Fire" or index == "Invoke" or index == "FireServer" or index == "InvokeServer") and enabled[self.ClassName]
 end
 
 function metatable:__namecall(...)
 	local arguments = {...}
 	local index = table.remove(arguments)
+    warn(self, index)
 	if self and index and IsAuthorized(self, index) then
 		return NameCallback(self, unpack(arguments))
 	end
