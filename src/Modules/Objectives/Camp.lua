@@ -1,4 +1,4 @@
-script.Name = 'Fuel Truck'
+script.Name = 'Camp'
 
 --[[
 
@@ -25,7 +25,6 @@ local Shared = Modules.Shared
 --------------------------------------------------------------------------------------------
 
 local Objective = {}
-
 Objective.Run = function(Data)
     local Name, Object, Point = Data.Name, Data.Object, Data.Point
     if Object.Parent == nil or Point.Parent == nil then return end
@@ -34,17 +33,9 @@ Objective.Run = function(Data)
     local Part = Shared.Functions.FloatingPart()
     local Target = Object.PrimaryPart
 
-    local Body = Object:FindFirstChild('Body'); if not Body then return false end
-    local Trailer = Body:FindFirstChild('Trailer'); if not Trailer then return false end
-    local Tank = Trailer:FindFirstChild('Tank'); if not Tank then return false end
-
     local CF = CFrame.new(Target.Position) * CFrame.new(0, _G.Settings.SafeHeight, 0)
     Part.CFrame = CF * CFrame.new(0, -3.5, 0)
     Shared.Functions.Teleport(CF)
-
-    for _ = 1, 3 do
-        Shared.Functions.ShootTank(Tank)
-    end
 end
 
 return Objective
