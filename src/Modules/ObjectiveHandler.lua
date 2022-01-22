@@ -103,6 +103,7 @@ ObjectiveModules['Radio'] = ObjectiveModules['Camp']
 local DoObjective = function() -- should be called each frame
     if #SR.Objectives == 0 then return false end
     if SR.Stage ~= 'Game' then return false end
+    if not SR.AFKFarming then return false end
 
     local Objective = SR.Objectives[1] -- the first objective
     local ObjectiveModule = ObjectiveModules[Objective.Name]

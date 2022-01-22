@@ -30,6 +30,7 @@ local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local ServiceRemotes = ReplicatedStorage:WaitForChild('ServiceRemotes')
 
 local SR = {
+    AFKFarming = false,
     Stage = 'Unknown',
 
     Modules = {},
@@ -61,8 +62,9 @@ SR.Modules.Signal = _G.Import('Modules/Signal')
 SR.Modules.Shared = _G.Import('Modules/Shared')
 
 --------------------------------------------------------------------------------------------
-
+_G.Import('Modules/Keybinds')
 _G.Import('Modules/REHandler')
+
 local OH = _G.Import('Modules/ObjectiveHandler')
 
 game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Character.Value, OH)
