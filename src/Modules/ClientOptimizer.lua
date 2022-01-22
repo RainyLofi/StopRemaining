@@ -100,8 +100,8 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
 
     if Method == 'FireServer' then
         if Args[1] == 'LL' then
-            warn('here')
             local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
+            print(WeaponModel, WeaponStats)
 
             local Zombies = Args[2]
             for _, Zombie in pairs(Zombies) do
