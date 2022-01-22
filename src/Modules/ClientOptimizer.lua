@@ -95,9 +95,10 @@ OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure
     if checkcaller() then return OldFireServer(Event, ...) end
     local Args = {...}
 
-    local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
-
     if Args[1] == 'LL' then
+        warn('here')
+        local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
+
         local Zombies = Args[2]
         for _, Zombie in pairs(Zombies) do
             if not Zombie.Special or Zombie.Special ~= 'H' then
