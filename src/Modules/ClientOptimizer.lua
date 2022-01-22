@@ -18,7 +18,7 @@ script.Name = 'ClientOptimizer'
 
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local FortInfo = require(ReplicatedStorage.Modules:WaitForChild('FortificationsInfo'))
-local Weapons = require(ReplicatedStorage.Modules:WaitForChild('Weapon Modules'))
+local Weapons = ReplicatedStorage.Modules:WaitForChild('Weapon Modules')
 
 local UIS = game:GetService('UserInputService')
 local Workspace = game:GetService('Workspace')
