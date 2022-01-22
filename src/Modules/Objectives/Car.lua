@@ -105,6 +105,7 @@ Objective.Run = function(Data)
         Shared.Functions.Teleport(Task.Part.CFrame * CFrame.new(0, 3.5, 0))
         task.wait(.2)
         Shared.Functions.PlaceItem(Task.Part.Position)
+        task.wait(.2)
     else
         warn('No task found for', SelectedItem)
     end

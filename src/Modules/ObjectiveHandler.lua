@@ -85,7 +85,7 @@ end)
 --------------------------------------------------------------------------------------------
 
 local Objectives, ObjectiveModules = {
-    'EscortChar', 'Car', 'FuelTruck', 'Camp'
+    'EscortChar', 'Car', 'FuelTruck', 'Camp', 'Bus',
 }, {}
 for _, Objective in pairs(Objectives) do
     ObjectiveModules[Objective] = _G.Import('Modules/Objectives/' .. Objective)
