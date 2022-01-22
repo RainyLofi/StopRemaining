@@ -45,17 +45,26 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
             Weapon.Stats.RecoilShake = _G.Settings.Recoil
             Weapon.Stats.MaxPen = _G.Settings.Penetration
 
-            if Weapon.Stats.WeaponType == 'Gun' then
-                if Weapon.Animations and Weapon.Animations.Reload then
-                    local Reload = Weapon.Animations.Reload
-                    for _, Part in pairs(Reload.Sequence) do
+            if Weapon.Stats.WeaponType == 'Gun' and Weapon.Animations then
+                for _, Animation in pairs(Weapon.Animations) do
+                    for _, Part in pairs(Animation.Sequence) do
                         if Part.Time >= 0.3 then
-                            Part.Time *= 0.5
-                        else
-                            Part.Time = math.max(Part.Time, Part.Time * .8)
+                            Part.Time *= 0.4
+                        elseif Part.Time >= 0.05 then
+                            Part.Time = math.max(Part.Time * .8, 0.05)
                         end
                     end
                 end
+                --[[if Weapon.Animations and Weapon.Animations.Reload then
+                    local Reload = Weapon.Animations.Reload
+                    for _, Part in pairs(Reload.Sequence) do
+                        if Part.Time >= 0.3 then
+                            Part.Time *= 0.4
+                        elseif Part.Time >= 0.05 then
+                            Part.Time = math.max(Part.Time * .8, 0.05)
+                        end
+                    end
+                end]]--
             end
 
             --[[if Weapon.Stats.Type == 'Flamethrower' then
@@ -64,6 +73,38 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
         end
     end
 end
+
+-- Auto headshot
+local OldFireServer
+OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure(function(Event, ...)
+    if checkcaller() then return OldFireServer(Event, ...) end
+    local Args = {...}
+
+    if Args[1] == 'LL' then
+        local Zombies = Args[2]
+        for _, Zombie in pairs(Zombies) do
+            if not Zombie.Special or Zombie.Special ~= 'H' then
+                if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' then
+                    Zombie.Special = 'H' -- make it a headshot
+                elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Riot' or Zombie.AI.Name == 'Hazmat' then
+                    local HeadshotChance = math.random(1, 4)
+                    if HeadshotChance == 1 then
+                        Zombie.Special = 'H'
+                    end
+                else
+                    local HeadshotChance = math.random(1, 8)
+                    if HeadshotChance == 1 then
+                        Zombie.Special = 'H'
+                    end
+                end
+            end
+        end
+
+        return OldFireServer(Event, unpack(Args))
+    end
+
+    return OldFireServer(Event, ...)
+end))
 
 while task.wait() do
     local UV = debug.getupvalues(ClientEnv.OnClientEvent)
