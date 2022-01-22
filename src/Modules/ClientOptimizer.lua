@@ -95,6 +95,8 @@ OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure
     if checkcaller() then return OldFireServer(Event, ...) end
     local Args = {...}
 
+    print('--------------')
+    table.foreach(Args, warn)
     if Args[1] == 'LL' then
         warn('here')
         local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
