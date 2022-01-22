@@ -79,20 +79,19 @@ end
 local Headshotify = function(Zombie, Damage)
     warn('Headshotifying', Zombie.AI)
     Zombie.Special = 'H'
-    warn('1')
+    warn('1', Zombie.Special)
     local Attachment = Workspace.Terrain:FindFirstChild('Attachment')
-    warn('2')
+    warn('2', Attachment)
     local Pos = Attachment.Position
-    warn('3')
+    warn('3', Pos)
     local Unit = (Attachment.Position - Pos).Unit
-    warn('4')
+    warn('4', Unit)
 
     local v15 = 1
     local v16 = 2.5
     local v17 = 1.2
 
-    print(Unit.Unit, Damage, v15, v16, v17)
-    Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
+    --Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
 end
 
 local OldNameCall
