@@ -74,6 +74,8 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
     end
 end
 
+--------------------------------------------------------------------------------------------
+
 local Headshotify = function(Zombie, Damage)
     warn('Headshotifying', Zombie.AI)
     Zombie.Special = 'H'
@@ -89,16 +91,38 @@ local Headshotify = function(Zombie, Damage)
     Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
 end
 
--- Auto headshot
-local OldFireServer
-OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure(function(Event, ...)
-    if checkcaller() then return OldFireServer(Event, ...) end
-    local Args = {...}
+local metatable = assert(getrawmetatable, "needs access to function 'getrawmetatable'")(game)
+if setreadonly then
+    setreadonly(metatable, false)
+end
 
-    print('--------------')
-    table.foreach(Args, warn)
+local enabled = {
+	BindableEvent = false,
+	BindableFunction = false,
+	RemoteEvent = true,
+	RemoteFunction = true
+}
+
+local methods = {
+	BindableEvent = "Fire",
+	BindableFunction = "Invoke",
+	RemoteEvent = "FireServer",
+	RemoteFunction = "InvokeServer"
+}
+
+local __namecall = __namecall or metatable.__namecall
+local __index = __index or metatable.__index
+
+local NameCallback = function(self, ...)
+    if typeof(self) ~= "Instance" then
+		return rconsoleerr(select(2, pcall(__index, self)))
+	end
+
+    local Args = {...}
+	local callerScript = rawget(getfenv(0), "script")
+	callerScript = typeof(callerScript) == "Instance" and callerScript or nil
+
     if Args[1] == 'LL' then
-        warn('here')
         local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
 
         local Zombies = Args[2]
@@ -120,11 +144,33 @@ OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure
             end
         end
 
-        return OldFireServer(Event, unpack(Args))
+        return unpack({methods[self.ClassName](self, unpack(Args))})
     end
 
-    return OldFireServer(Event, ...)
-end))
+    return unpack({methods[self.ClassName](self, ...)})
+end
+
+NameCallback = newcclosure(NameCallback)
+methods.BindableEvent = hookfunc(Instance.new("BindableEvent").Fire, NameCallback)
+methods.BindableFunction = hookfunc(Instance.new("BindableFunction").Invoke, NameCallback)
+methods.RemoteEvent = hookfunc(Instance.new("RemoteEvent").FireServer, NameCallback)
+methods.RemoteFunction = hookfunc(Instance.new("RemoteFunction").InvokeServer, NameCallback)
+
+local function IsAuthorized(self, index)
+	return (index == "Fire" or index == "Invoke" or index == "FireServer" or index == "InvokeServer") and enabled[self.ClassName] and index ~= 'IsA'
+end
+
+function metatable:__namecall(...)
+	local arguments = {...}
+	local index = table.remove(arguments)
+	if self and index and IsAuthorized(self, index) then
+		return NameCallback(self, unpack(arguments))
+	end
+	return __namecall(self, ...)
+end
+metatable.__namecall = newcclosure(metatable.__namecall)
+
+--------------------------------------------------------------------------------------------
 
 while task.wait() do
     local UV = debug.getupvalues(ClientEnv.OnClientEvent)
