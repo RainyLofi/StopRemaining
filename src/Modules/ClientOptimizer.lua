@@ -36,24 +36,25 @@ local ClientEnv = SR.ClientEnv
 
 --------------------------------------------------------------------------------------------
 
-while task.wait() do
-    local UV = debug.getupvalues(ClientEnv.OnClientEvent)
-    local Forts, Ammo = UV[3]['List'], UV[4]
+for _, WeaponObj in pairs(Weapons:GetChildren()) do 
+    if WeaponObj:IsA('ModuleScript') then
+        local Weapon = require(WeaponObj)
+        if Weapon and Weapon.Stats then
+            Weapon.Stats.VerticleRecoil = math.rad(_G.Settings.Recoil)
+            Weapon.Stats.HorizontalRecoil = math.rad(_G.Settings.Recoil)
+            Weapon.Stats.RecoilShake = _G.Settings.Recoil
+            Weapon.Stats.MaxPen = _G.Settings.Penetration
 
-    for Name, Fortification in pairs(FortInfo) do -- unlimited fortifications
-        local Found = false
-        for _, Fort in pairs(Forts) do
-            if Fort.Name == Name then
-                Found = true
-            end
-        end
-        if not Found then
-            table.insert(Forts, {
-                Name = Name,
-                Count = Fortification.Count
-            })
+            --[[if Weapon.Stats.Type == 'Flamethrower' then
+                Weapon.Stats.Range = 250
+            end]]--
         end
     end
+end
+
+while task.wait() do
+    local UV = debug.getupvalues(ClientEnv.OnClientEvent)
+    local Ammo = UV[4]
 
     for _, WeaponData in pairs(Ammo) do -- unlimited ammo
         if WeaponData.Name and Weapons:FindFirstChild(WeaponData.Name) and WeaponData.Pool then
