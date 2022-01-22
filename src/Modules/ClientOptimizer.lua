@@ -76,6 +76,20 @@ end
 
 --------------------------------------------------------------------------------------------
 
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    if checkcaller() then return OldNameCall(self, ...) end
+
+    local Args = {...}
+    local Method = getnamecallmethod()
+
+    if Method == 'FireServer' then
+        table.foreach(Args, print)
+    end
+
+    return OldNameCall(self, unpack(Args))
+end)
+--[[
 local Headshotify = function(Zombie, Damage)
     warn('Headshotifying', Zombie.AI)
     Zombie.Special = 'H'
@@ -165,7 +179,7 @@ for Class, Method in next, Methods do --// FireServer and InvokeServer hooking (
     original_function = detour_function(original_function, new_function)
     Original[new_function] = original_function
     print("Hooked", Method)
-end
+end]]--
 
 --------------------------------------------------------------------------------------------
 
