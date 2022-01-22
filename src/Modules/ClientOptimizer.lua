@@ -113,18 +113,20 @@ local methods = {
 local __namecall = __namecall or metatable.__namecall
 local __index = __index or metatable.__index
 
+warn('here1')
 local NameCallback = function(self, ...)
     if typeof(self) ~= "Instance" then
-		return rconsoleerr(select(2, pcall(__index, self)))
-	end
+        return rconsoleerr(select(2, pcall(__index, self)))
+    end
 
-    warn('here')
+    warn('here2')
 
     local Args = {...}
-	local callerScript = rawget(getfenv(0), "script")
-	callerScript = typeof(callerScript) == "Instance" and callerScript or nil
+    local callerScript = rawget(getfenv(0), "script")
+    callerScript = typeof(callerScript) == "Instance" and callerScript or nil
 
     if Args[1] == 'LL' then
+        warn('here3')
         local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
 
         local Zombies = Args[2]
