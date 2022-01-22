@@ -103,23 +103,23 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
 
     if Method == 'FireServer' then
         if Args[1] == 'LL' then
-            local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
-            print(WeaponModel, WeaponStats)
+            --local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
+            --print(WeaponModel, WeaponStats)
 
             local Zombies = Args[2]
             for _, Zombie in pairs(Zombies) do
                 if not Zombie.Special or Zombie.Special ~= 'H' then
                     if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' then
-                        Headshotify(Zombie, WeaponStats.Damage)
+                        --Headshotify(Zombie, WeaponStats.Damage)
                     elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Riot' or Zombie.AI.Name == 'Hazmat' then
                         local HeadshotChance = math.random(1, 4)
                         if HeadshotChance == 1 then
-                            Headshotify(Zombie, WeaponStats.Damage)
+                            --Headshotify(Zombie, WeaponStats.Damage)
                         end
                     else
                         local HeadshotChance = math.random(1, 8)
                         if HeadshotChance == 1 then
-                            Headshotify(Zombie, WeaponStats.Damage)
+                            --Headshotify(Zombie, WeaponStats.Damage)
                         end
                     end
                 end
