@@ -36,7 +36,7 @@ local ClientEnv = SR.ClientEnv
 
 --------------------------------------------------------------------------------------------
 
-for _, WeaponObj in pairs(Weapons:GetChildren()) do 
+for _, WeaponObj in pairs(Weapons:GetChildren()) do
     if WeaponObj:IsA('ModuleScript') then
         local Weapon = require(WeaponObj)
         if Weapon and Weapon.Stats then
