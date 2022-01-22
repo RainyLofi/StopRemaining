@@ -76,6 +76,21 @@ end
 
 --------------------------------------------------------------------------------------------
 
+local Headshotify = function(Zombie, Damage)
+    warn('Headshotifying', Zombie.AI)
+    Zombie.Special = 'H'
+
+    local Attachment = Workspace.Terrain:FindFirstChild('Attachment')
+    local Pos = Attachment.Position
+    local Unit = (Attachment.Position - Pos).Unit
+
+    local v15 = 1
+    local v16 = 2.5
+    local v17 = 1.2
+
+    Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
+end
+
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     if checkcaller() then return OldNameCall(self, ...) end
@@ -84,7 +99,29 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Method = getnamecallmethod()
 
     if Method == 'FireServer' then
-        table.foreach(Args, print)
+        if Args[1] == 'LL' then
+            warn('here')
+            local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
+
+            local Zombies = Args[2]
+            for _, Zombie in pairs(Zombies) do
+                if not Zombie.Special or Zombie.Special ~= 'H' then
+                    if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' then
+                        Headshotify(Zombie, WeaponStats.Damage)
+                    elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Riot' or Zombie.AI.Name == 'Hazmat' then
+                        local HeadshotChance = math.random(1, 4)
+                        if HeadshotChance == 1 then
+                            Headshotify(Zombie, WeaponStats.Damage)
+                        end
+                    else
+                        local HeadshotChance = math.random(1, 8)
+                        if HeadshotChance == 1 then
+                            Headshotify(Zombie, WeaponStats.Damage)
+                        end
+                    end
+                end
+            end
+        end
     end
 
     return OldNameCall(self, unpack(Args))
