@@ -91,39 +91,8 @@ local Headshotify = function(Zombie, Damage)
     Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
 end
 
-local metatable = assert(getrawmetatable, "needs access to function 'getrawmetatable'")(game)
-if setreadonly then
-    setreadonly(metatable, false)
-end
-
-local enabled = {
-	BindableEvent = false,
-	BindableFunction = false,
-	RemoteEvent = true,
-	RemoteFunction = true
-}
-
-local methods = {
-	BindableEvent = "Fire",
-	BindableFunction = "Invoke",
-	RemoteEvent = "FireServer",
-	RemoteFunction = "InvokeServer"
-}
-
-local __namecall = __namecall or metatable.__namecall
-local __index = __index or metatable.__index
-
-warn('here1')
-local NameCallback = function(self, ...)
-    if typeof(self) ~= "Instance" then
-        return rconsoleerr(select(2, pcall(__index, self)))
-    end
-
-    warn('here2')
-
+local Hooked = function(original_function, self, ...)
     local Args = {...}
-    local callerScript = rawget(getfenv(0), "script")
-    callerScript = typeof(callerScript) == "Instance" and callerScript or nil
 
     if Args[1] == 'LL' then
         warn('here3')
@@ -148,32 +117,55 @@ local NameCallback = function(self, ...)
             end
         end
 
-        return unpack({methods[self.ClassName](self, unpack(Args))})
+        return original_function(self, unpack(Args))
     end
 
-    return unpack({methods[self.ClassName](self, ...)})
+    return original_function(self, ...)
 end
 
-NameCallback = newcclosure(NameCallback)
-methods.BindableEvent = hookfunc(Instance.new("BindableEvent").Fire, NameCallback)
-methods.BindableFunction = hookfunc(Instance.new("BindableFunction").Invoke, NameCallback)
-methods.RemoteEvent = hookfunc(Instance.new("RemoteEvent").FireServer, NameCallback)
-methods.RemoteFunction = hookfunc(Instance.new("RemoteFunction").InvokeServer, NameCallback)
+local metatable = getrawmetatable(game)
 
-local function IsAuthorized(self, index)
-	return (index == "Fire" or index == "Invoke" or index == "FireServer" or index == "InvokeServer") and enabled[self.ClassName]
+--// Custom functions aliases
+
+local setreadonly = setreadonly or set_readonly
+local make_writeable = make_writeable or function(t)
+	setreadonly(t, false)
+end
+local make_readonly = make_readonly or function(t)
+	setreadonly(t, true)
+end
+local protect_function = protect_function or newcclosureyield or newcclosure or function(...)
+	return ...
 end
 
-function metatable:__namecall(...)
-	local arguments = {...}
-	local index = table.remove(arguments)
-    warn(self, index)
-	if self and index and IsAuthorized(self, index) then
-		return NameCallback(self, unpack(arguments))
-	end
-	return __namecall(self, ...)
+local detour_function = detour_function or replace_closure or hookfunction
+local get_namecall_method = get_namecall_method or getnamecallmethod
+
+local Methods = {
+	RemoteEvent = "FireServer",
+	RemoteFunction = "InvokeServer"
+}
+
+local Original = {}
+
+local function IsValidCall(Remote, Method, Arguments)
+	return Methods[Remote.ClassName] == Method
 end
-metatable.__namecall = newcclosure(metatable.__namecall)
+
+for Class, Method in next, Methods do --// FireServer and InvokeServer hooking ( FireServer(Remote, ...) )
+    local original_function = Instance.new(Class)[Method]
+    local function new_function(self, ...)
+        local Arguments = {...}
+        if typeof(self) == "Instance" and IsValidCall(self, Method, Arguments) then
+            return Hooked(original_function, self, Arguments)
+        end
+        return original_function(self, ...)
+    end
+    new_function = protect_function(new_function)
+    original_function = detour_function(original_function, new_function)
+    Original[new_function] = original_function
+    print("Hooked", Method)
+end
 
 --------------------------------------------------------------------------------------------
 
