@@ -88,6 +88,7 @@ local Headshotify = function(Zombie, Damage)
     local v16 = 2.5
     local v17 = 1.2
 
+    print(Unit.Unit, Damage, v15, v16, v17)
     Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
 end
 
