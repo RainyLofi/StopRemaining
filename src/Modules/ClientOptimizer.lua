@@ -74,27 +74,44 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
     end
 end
 
+local Headshotify = function(Zombie, Damage)
+    warn('Headshotifying', Zombie.AI)
+    Zombie.Special = 'H'
+
+    local Attachment = Workspace.Terrain:FindFirstChild('Attachment')
+    local Pos = Attachment.Position
+    local Unit = (Attachment.Position - Pos).Unit
+
+    local v15 = 1
+    local v16 = 2.5
+    local v17 = 1.2
+
+    Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
+end
+
 -- Auto headshot
 local OldFireServer
 OldFireServer = hookfunction(Instance.new('RemoteEvent').FireServer, newcclosure(function(Event, ...)
     if checkcaller() then return OldFireServer(Event, ...) end
     local Args = {...}
 
+    local WeaponModel, WeaponStats = Shared.Functions.GetWeaponModel()
+
     if Args[1] == 'LL' then
         local Zombies = Args[2]
         for _, Zombie in pairs(Zombies) do
             if not Zombie.Special or Zombie.Special ~= 'H' then
                 if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' then
-                    Zombie.Special = 'H' -- make it a headshot
+                    Headshotify(Zombie, WeaponStats.Damage)
                 elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Riot' or Zombie.AI.Name == 'Hazmat' then
                     local HeadshotChance = math.random(1, 4)
                     if HeadshotChance == 1 then
-                        Zombie.Special = 'H'
+                        Headshotify(Zombie, WeaponStats.Damage)
                     end
                 else
                     local HeadshotChance = math.random(1, 8)
                     if HeadshotChance == 1 then
-                        Zombie.Special = 'H'
+                        Headshotify(Zombie, WeaponStats.Damage)
                     end
                 end
             end

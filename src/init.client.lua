@@ -61,6 +61,7 @@ local SR = {
 } -- shared
 
 SR.ClientEnv = getsenv(SR.Client)
+SR.Fire2 = debug.getupvalues(SR.ClientEnv.Fire2)
 
 _G.SR = SR
 
