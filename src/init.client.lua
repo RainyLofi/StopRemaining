@@ -72,5 +72,6 @@ _G.Import('Modules/Keybinds')
 _G.Import('Modules/REHandler')
 
 local OH = _G.Import('Modules/ObjectiveHandler')
+game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Camera.Value, OH)
 
-game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Character.Value, OH)
+_G.Import('Modules/ClientOptimizer')

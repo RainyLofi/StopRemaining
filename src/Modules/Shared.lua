@@ -78,7 +78,7 @@ local ReplicatedStorage = game:GetService('ReplicatedStorage')
 Shared.Functions.PlaceFort = function(Fort, CF)
     if typeof(CF) == 'Instance' then
         local Clone = ReplicatedStorage.Models.Fortifications[Fort]:Clone()
-        CF = CF.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset, 0) * CFrame.new(0, Clone.BoundingBox.Size.y / 2, 0)
+        CF = CF.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset + Clone.BoundingBox.Size.y / 2, 0)
     end
 
     RE:FireServer('PlaceFortification', {
