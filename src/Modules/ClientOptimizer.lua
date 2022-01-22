@@ -118,6 +118,8 @@ local NameCallback = function(self, ...)
 		return rconsoleerr(select(2, pcall(__index, self)))
 	end
 
+    warn('here')
+
     local Args = {...}
 	local callerScript = rawget(getfenv(0), "script")
 	callerScript = typeof(callerScript) == "Instance" and callerScript or nil
