@@ -79,10 +79,13 @@ end
 local Headshotify = function(Zombie, Damage)
     warn('Headshotifying', Zombie.AI)
     Zombie.Special = 'H'
-
+    warn('1')
     local Attachment = Workspace.Terrain:FindFirstChild('Attachment')
+    warn('2')
     local Pos = Attachment.Position
+    warn('3')
     local Unit = (Attachment.Position - Pos).Unit
+    warn('4')
 
     local v15 = 1
     local v16 = 2.5
