@@ -10,7 +10,7 @@ script.Name = 'Keybinds'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     Keybinds
 ]]--

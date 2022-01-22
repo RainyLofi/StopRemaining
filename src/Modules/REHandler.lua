@@ -10,7 +10,7 @@ script.Name = 'REHandler'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     RE Handler
 ]]--

@@ -10,7 +10,7 @@ script.Name = 'ClientOptimizer'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     ClientOptimizer
 ]]--

@@ -10,7 +10,7 @@ script.Name = 'ClientController'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     Client Controller
 ]]--

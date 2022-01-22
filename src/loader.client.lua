@@ -8,7 +8,7 @@
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 ]]--
 --------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ _G.Settings = {
 
 _G.Import = function(Source: string, JSON: boolean)
 	local RunService, HttpService = game:GetService('RunService'), game:GetService('HttpService')
-	local Repo = 'https://raw.githubusercontent.com/RainyLofi/StopRemaining/main/src/'
+	local Repo = 'https://raw.githubusercontent.com/U1959985/StopRemaining/main/src/'
 	if JSON then
 		return RunService:IsStudio() and HttpService:JSONDecode(script:WaitForChild(Source)) or HttpService:JSONDecode(game:HttpGet(Repo .. Source .. '.json', true))
 	elseif RunService:IsStudio() then

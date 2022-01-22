@@ -10,7 +10,7 @@ script.Name = 'Shared'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     Shared
 ]]--

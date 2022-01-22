@@ -10,7 +10,7 @@ script.Name = 'Camp'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     ObjectiveHandler
 ]]--

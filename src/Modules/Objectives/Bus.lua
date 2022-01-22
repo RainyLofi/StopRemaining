@@ -10,7 +10,7 @@ script.Name = 'Bus'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     ObjectiveHandler
 ]]--

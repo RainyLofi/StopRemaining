@@ -10,7 +10,7 @@ script.Name = 'Fuel Truck'
                   /_/                                               /____/
 
     -- Stop Remaining
-    -- By: RainyLofi
+    -- By: RhythmeticShots
 
     ObjectiveHandler
 ]]--
