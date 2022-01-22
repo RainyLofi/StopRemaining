@@ -24,7 +24,8 @@ repeat task.wait() until Players and Players.LocalPlayer and game.PlaceId
 
 -- Setup shared variables
 local Player = Players.LocalPlayer
-Player:WaitForChild('PlayerGui')
+local PlayerGui = Player:WaitForChild('PlayerGui')
+local PlayerScripts = Player:WaitForChild('PlayerScripts')
 
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local ServiceRemotes = ReplicatedStorage:WaitForChild('ServiceRemotes')
@@ -54,8 +55,13 @@ local SR = {
     RE = ReplicatedStorage:WaitForChild('RE'),
     RF = ReplicatedStorage:WaitForChild('RF'),
 
+    Client = PlayerScripts:WaitForChild('Client'),
+
     Signals = {},
 } -- shared
+
+SR.ClientEnv = getsenv(SR.Client)
+
 _G.SR = SR
 
 SR.Modules.Signal = _G.Import('Modules/Signal')

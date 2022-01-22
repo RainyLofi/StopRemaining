@@ -43,13 +43,13 @@ local Keybinds = {
         local Character = Player.Character; if not Character or not Character.Parent then return false end
         local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
 
-        Shared.Functions.PlaceFort('Barbed Wire', HRP.CFrame * CFrame.new(0, _G.Setings.FortPlaceOffset, 0))
+        Shared.Functions.PlaceFort('Barbed Wire', HRP.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset, 0))
     end,
     [Enum.KeyCode.Four] = function()
         local Character = Player.Character; if not Character or not Character.Parent then return false end
         local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
 
-        Shared.Functions.PlaceFort('Clap Bomb', HRP.CFrame * CFrame.new(0, _G.Setings.FortPlaceOffset, 0))
+        Shared.Functions.PlaceFort('Clap Bomb', HRP.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset, 0))
     end,
 }
 
