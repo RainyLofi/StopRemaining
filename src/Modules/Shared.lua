@@ -59,6 +59,21 @@ Shared.Functions.Teleport = function(CF)
     end
 end
 
+local ReplicatedStorage = game:GetService('ReplicatedStorage')
+local Weapons = ReplicatedStorage.Modules:WaitForChild('Weapon Modules')
+Shared.Functions.GetWeaponModel = function()
+    local Data = SR.Fire2[3]
+    local Objs = Data['Objs']
+    local WeaponModel, WeaponStats = nil, nil
+
+    if Objs and Objs['WeaponModel'] then
+        WeaponModel = Objs['WeaponModel']
+        local Module = Weapons:FindFirstChild(WeaponModel.Name)
+        if Module then WeaponStats = require(Module).Stats end
+    end
+    return WeaponModel, WeaponStats
+end
+
 Shared.Functions.FloatingPart = function()
     if Shared.FloatingPart and Shared.FloatingPart.Parent then
         return Shared.FloatingPart
