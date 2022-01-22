@@ -33,7 +33,7 @@ local OS = SR.ObjectiveService
 --------------------------------------------------------------------------------------------
 
 local Keybinds = {
-    [Enum.KeyCode.KeypadZero] = function()
+    [Enum.KeyCode.KeypadSix] = function()
         SR.AFKFarming = not SR.AFKFarming
         if not SR.AFKFarming then
             Shared.Functions.NoClip(false)
@@ -43,13 +43,13 @@ local Keybinds = {
         local Character = Player.Character; if not Character or not Character.Parent then return false end
         local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
 
-        Shared.Functions.PlaceFort('Barbed Wire', HRP.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset, 0))
+        Shared.Functions.PlaceFort('Barbed Wire', HRP)
     end,
     [Enum.KeyCode.Four] = function()
         local Character = Player.Character; if not Character or not Character.Parent then return false end
         local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
 
-        Shared.Functions.PlaceFort('Clap Bomb', HRP.CFrame * CFrame.new(0, _G.Settings.FortPlaceOffset, 0))
+        Shared.Functions.PlaceFort('Clap Bomb', HRP)
     end,
 }
 
