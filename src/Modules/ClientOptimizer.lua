@@ -36,6 +36,14 @@ local ClientEnv = SR.ClientEnv
 
 --------------------------------------------------------------------------------------------
 
+local GetTime = function(Animation)
+    local Time = 0
+    for _, Part in pairs(Animation.Sequence) do
+        if Part.Time then Time += Part.Time end
+    end
+    return Time
+end
+
 for _, WeaponObj in pairs(Weapons:GetChildren()) do
     if WeaponObj:IsA('ModuleScript') then
         local Weapon = require(WeaponObj)
@@ -43,7 +51,6 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
             Weapon.Stats.VerticleRecoil = math.rad(_G.Settings.Recoil)
             Weapon.Stats.HorizontalRecoil = math.rad(_G.Settings.Recoil)
             Weapon.Stats.RecoilShake = _G.Settings.Recoil
-            Weapon.Stats.MaxPen = _G.Settings.Penetration
 
             if Weapon.Stats.WeaponType == 'Gun' and Weapon.Animations then
                 for _, Animation in pairs(Weapon.Animations) do
@@ -54,6 +61,17 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
                             Part.Time = math.max(Part.Time * .8, 0.05)
                         end
                     end
+
+                    if GetTime(Animation) >= 1.4 then
+                        for _, Part in pairs(Animation.Sequence) do
+                            if Part.Time >= 0.3 then
+                                Part.Time *= 0.8
+                            elseif Part.Time >= 0.05 then
+                                Part.Time = math.max(Part.Time * .5, 0.05)
+                            end
+                        end
+                    end
+
                 end
                 --[[if Weapon.Animations and Weapon.Animations.Reload then
                     local Reload = Weapon.Animations.Reload
