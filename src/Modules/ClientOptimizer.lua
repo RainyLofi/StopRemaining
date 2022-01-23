@@ -79,7 +79,7 @@ end
 local Headshotify = function(Zombie, Damage)
     warn('Headshotifying', Zombie.AI)
     Zombie.Special = 'H'
-    warn('1', Zombie.Special)
+  --[[warn('1', Zombie.Special)
     local Attachment = Workspace.Terrain:FindFirstChild('Attachment')
     warn('2', Attachment)
     local Pos = Attachment.Position
@@ -91,7 +91,7 @@ local Headshotify = function(Zombie, Damage)
     local v16 = 2.5
     local v17 = 1.2
 
-    --Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird
+    --Zombie.Velocity = Unit.Unit * ((Damage - Damage * v15 * 0.5) * v16 * v17) -- there is some kind of check, it's very weird]]--
 end
 
 local OldNameCall
@@ -110,16 +110,16 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
             for _, Zombie in pairs(Zombies) do
                 if not Zombie.Special or Zombie.Special ~= 'H' then
                     if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' then
-                        --Headshotify(Zombie, WeaponStats.Damage)
+                        Headshotify(Zombie)
                     elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Riot' or Zombie.AI.Name == 'Hazmat' then
                         local HeadshotChance = math.random(1, 4)
                         if HeadshotChance == 1 then
-                            --Headshotify(Zombie, WeaponStats.Damage)
+                            Headshotify(Zombie)
                         end
                     else
                         local HeadshotChance = math.random(1, 8)
                         if HeadshotChance == 1 then
-                            --Headshotify(Zombie, WeaponStats.Damage)
+                            Headshotify(Zombie)
                         end
                     end
                 end
