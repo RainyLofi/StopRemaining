@@ -40,7 +40,9 @@ local Items = Ignore:WaitForChild('Items')
 local ESPItems = {
     'Body Armor',
     'Medkit',
-    'Barbed Wire'
+    'Barbed Wire',
+    'Energy Drink',
+    'Bandages',
 }
 
 local CoreGui = game:GetService('CoreGui')
