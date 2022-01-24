@@ -39,6 +39,7 @@ local SR = {
     CarryingItem = nil,
     Objectives = {},
     ObjectiveService = {
+        Service = ServiceRemotes:WaitForChild('ObjectiveService'),
         UpdateCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('UpdateCarryingItem'),
         RemoveCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('RemoveCarryingItem'),
         AlreadyCarryingItem = ServiceRemotes.ObjectiveService:WaitForChild('AlreadyCarryingItem'),
