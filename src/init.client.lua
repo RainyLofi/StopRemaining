@@ -71,6 +71,7 @@ SR.Modules.Shared = _G.Import('Modules/Shared')
 --------------------------------------------------------------------------------------------
 _G.Import('Modules/Keybinds')
 _G.Import('Modules/REHandler')
+_G.Import('Modules/ItemESP')
 
 local OH = _G.Import('Modules/ObjectiveHandler')
 game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Camera.Value, OH)
