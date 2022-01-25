@@ -64,6 +64,21 @@ local SR = {
 SR.ClientEnv = getsenv(SR.Client)
 SR.Fire2 = debug.getupvalues(SR.ClientEnv.Fire2)
 
+local PSM = PlayerScripts:WaitForChild('Modules')
+local Other = PSM:WaitForChild('Other')
+local Bullet = require(Other:WaitForChild('Bullet'))
+local UpdateBullet = Bullet.Update
+local Constants = debug.getconstants(UpdateBullet)
+local DamageCode = Constants[#Constants]
+if DamageCode and typeof(DamageCode) == 'string' then
+    rconsoleprint('Using damage code' .. DamageCode)
+    SR.DamageCode = DamageCode
+else
+    rconsoleprint('Failed to get damage code! ' .. tostring(DamageCode))
+    warn('Failed to get damage code!', tostring(DamageCode))
+    return
+end
+
 _G.SR = SR
 
 SR.Modules.Signal = _G.Import('Modules/Signal')

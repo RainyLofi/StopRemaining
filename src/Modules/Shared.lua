@@ -126,7 +126,7 @@ Shared.Functions.ShootZombie = function(Zombie)
     )
 
     RE:FireServer(
-        "bb",
+        SR.DamageCode,
         {
             {
                 ["AI"] = Zombie,

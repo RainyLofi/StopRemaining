@@ -107,7 +107,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Method = getnamecallmethod()
 
     if Method == 'FireServer' then
-        if Args[1] == 'LL' or Args[1] == 'bb' then
+        if Args[1] == SR.DamageCode then
             local Zombies = Args[2]
             for _, Zombie in pairs(Zombies) do
                 if not Zombie.Special or Zombie.Special ~= 'H' then
