@@ -28,7 +28,7 @@ local Objective = {}
 
 Objective.DisplayTextToItem = function(CarName, Text)
     if Text == 'TIRE REQUIRED' then
-        return CarName .. ' Wheel'
+        return {CarName .. ' Wheel', 'Wheel'}
     elseif string.find(Text, 'FUEL') then
         return 'Jerry Can'
     elseif string.find(Text, 'SPARK PLUGS') then
@@ -61,9 +61,19 @@ Objective.PickupItem = function(Object)
 
     local SelectedItem = nil
     for _, Item in pairs(Object.Parent:GetChildren()) do
-        if Item.Name == Task.Item and Item.PrimaryPart then
-            SelectedItem = Item
-            break
+        if typeof(Task.Item) == 'string' then
+            if Item.Name == Task.Item and Item.PrimaryPart then
+                SelectedItem = Item
+                break
+            end
+        elseif typeof(Task.Item) == 'table' then
+            for _, TaskItem in pairs(Task.Item) do
+                if Item.Name == TaskItem and Item.PrimaryPart then
+                    SelectedItem = Item
+                    break
+                end
+            end
+            if SelectedItem then break end
         end
     end
 
@@ -95,9 +105,19 @@ Objective.Run = function(Data)
 
     local Task = nil
     for _, T in pairs(Tasks) do
-        if T.Item == SelectedItem then
-            Task = T
-            break
+        if typeof(T.Item) == 'string' then
+            if T.Item == SelectedItem then
+                Task = T
+                break
+            end
+        elseif typeof(T.Item) == 'table' then
+            for _, TItem in pairs(T.Item) do
+                if TItem == SelectedItem then
+                    Task = T
+                    break
+                end
+            end
+            if Task then break end
         end
     end
 
