@@ -66,7 +66,7 @@ local AFK = function() -- goes out of its way to find zombies
 
     Shared.Functions.NoClip(true)
     local Part = Shared.Functions.FloatingPart()
-    Part.CFrame = CFrame.new(ZCF * CFrame.new(0, -3.5, 0))
+    Part.CFrame = ZCF * CFrame.new(0, -3.5, 0)
     Shared.Functions.Teleport(ZCF)
 
     SR.AFKKilling = true
