@@ -107,8 +107,35 @@ Shared.Functions.ShootTank = function(Tank)
     OS.HitDamageable:FireServer(Tank)
 end
 
+Shared.Functions.Headshotify = function(Zombie)
+    Zombie.Special = 'H'
+end
+
+Shared.Functions.HeadshotChance = function(Zombie)
+    if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' or Zombie.AI.Name == 'Riot' then
+        Shared.Functions.Headshotify(Zombie)
+    elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Hazmat' then
+        local HeadshotChance = math.random(1, 2)
+        if HeadshotChance == 1 then
+            Shared.Functions.Headshotify(Zombie)
+        end
+    elseif Zombie.AI.Name == 'Sprinter' then
+        local HeadshotChance = math.random(1, 4)
+        if HeadshotChance == 1 then
+            Shared.Functions.Headshotify(Zombie)
+        end
+    else
+        local HeadshotChance = math.random(1, 8)
+        if HeadshotChance == 1 then
+            Shared.Functions.Headshotify(Zombie)
+        end
+    end
+end
+
 Shared.Functions.ShootZombie = function(Zombie)
     local Model, Stats = Shared.Functions.GetWeaponModel()
+    if not Model or not Stats then return false end
+
     local Character = Player.Character; if not Character then return false end
     local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
     local ZHRP = Zombie.PrimaryPart; if not ZHRP then return false end

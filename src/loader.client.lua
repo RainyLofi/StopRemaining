@@ -15,8 +15,10 @@
 _G.Settings = {
 	SafeHeight = 12.4,
 	FortPlaceOffset = -3,
+	Recoil = 0.01,
 
-	Recoil = 0.01
+	NoNewPlayers = true, -- leave if a new player joins like a moderator
+	AutoKillObjectiveRange = 70, -- how far to auto kill zombies when doing objectives
 }
 
 --------------------------------------------------------------------------------------------

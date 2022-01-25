@@ -94,13 +94,8 @@ end
 
 --------------------------------------------------------------------------------------------
 
--- auto headshot
-local Headshotify = function(Zombie)
-    Zombie.Special = 'H'
-end
-
 local OldNameCall
-OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...) -- auto headshot
     if checkcaller() then return OldNameCall(self, ...) end
 
     local Args = {...}
@@ -111,24 +106,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
             local Zombies = Args[2]
             for _, Zombie in pairs(Zombies) do
                 if not Zombie.Special or Zombie.Special ~= 'H' then
-                    if Zombie.AI.Name == 'Burster' or Zombie.AI.Name == 'Bloater' or Zombie.AI.Name == 'Riot' then
-                        Headshotify(Zombie)
-                    elseif Zombie.AI.Name == 'Military' or Zombie.AI.Name == 'Hazmat' then
-                        local HeadshotChance = math.random(1, 2)
-                        if HeadshotChance == 1 then
-                            Headshotify(Zombie)
-                        end
-                    elseif Zombie.AI.Name == 'Sprinter' then
-                        local HeadshotChance = math.random(1, 4)
-                        if HeadshotChance == 1 then
-                            Headshotify(Zombie)
-                        end
-                    else
-                        local HeadshotChance = math.random(1, 8)
-                        if HeadshotChance == 1 then
-                            Headshotify(Zombie)
-                        end
-                    end
+                    Shared.Functions.HeadshotChance(Zombie)
                 end
             end
         end
@@ -139,16 +117,18 @@ end)
 
 --------------------------------------------------------------------------------------------
 
-while task.wait() do
-    local UV = debug.getupvalues(ClientEnv.OnClientEvent)
-    local Ammo = UV[4]
+task.spawn(function() -- unlimited ammo
+    while task.wait() do
+        local UV = debug.getupvalues(ClientEnv.OnClientEvent)
+        local Ammo = UV[4]
 
-    for _, WeaponData in pairs(Ammo) do -- unlimited ammo
-        if WeaponData.Name and Weapons:FindFirstChild(WeaponData.Name) and WeaponData.Pool then
-            local GunData = require(Weapons:FindFirstChild(WeaponData.Name))
-            if GunData and GunData.Stats and GunData.Stats.Pool then
-                WeaponData.Pool = GunData.Stats.Pool
+        for _, WeaponData in pairs(Ammo) do
+            if WeaponData.Name and Weapons:FindFirstChild(WeaponData.Name) and WeaponData.Pool then
+                local GunData = require(Weapons:FindFirstChild(WeaponData.Name))
+                if GunData and GunData.Stats and GunData.Stats.Pool then
+                    WeaponData.Pool = GunData.Stats.Pool
+                end
             end
         end
     end
-end
+end)

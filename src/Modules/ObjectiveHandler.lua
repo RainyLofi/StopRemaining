@@ -101,14 +101,14 @@ ObjectiveModules['Ammo'] = ObjectiveModules['Camp']
 ObjectiveModules['Radio'] = ObjectiveModules['Camp']
 
 local DoObjective = function() -- should be called each frame
-    if #SR.Objectives == 0 then return false end
-    if SR.Stage ~= 'Game' then return false end
-    if not SR.AFKFarming then return false end
-
-    local Objective = SR.Objectives[1] -- the first objective
-    local ObjectiveModule = ObjectiveModules[Objective.Name]
-    if ObjectiveModule then
-        return ObjectiveModule.Run(Objective)
+    if SR.AFKFarming then
+        if #SR.Objectives > 0 and SR.Stage == 'Game' then
+            local Objective = SR.Objectives[1] -- the first objective
+            local ObjectiveModule = ObjectiveModules[Objective.Name]
+            if ObjectiveModule then
+                return ObjectiveModule.Run(Objective)
+            end
+        end
     end
 end
 

@@ -71,10 +71,11 @@ local UpdateBullet = Bullet.Update
 local Constants = debug.getconstants(UpdateBullet)
 local DamageCode = Constants[#Constants]
 if DamageCode and typeof(DamageCode) == 'string' then
-    rconsoleprint('Using damage code' .. DamageCode)
+    rconsoleprint('\nUsing damage code ' .. DamageCode)
+    warn('Using damage code', DamageCode)
     SR.DamageCode = DamageCode
 else
-    rconsoleprint('Failed to get damage code! ' .. tostring(DamageCode))
+    rconsoleprint('\nFailed to get damage code! ' .. tostring(DamageCode))
     warn('Failed to get damage code!', tostring(DamageCode))
     return
 end
@@ -83,13 +84,29 @@ _G.SR = SR
 
 SR.Modules.Signal = _G.Import('Modules/Signal')
 SR.Modules.Shared = _G.Import('Modules/Shared')
+SR.Modules.AutoKill = _G.Import('Modules/AutoKill')
 
 --------------------------------------------------------------------------------------------
+
 _G.Import('Modules/Keybinds')
 _G.Import('Modules/REHandler')
 _G.Import('Modules/ItemESP')
 
 local OH = _G.Import('Modules/ObjectiveHandler')
 game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Camera.Value, OH)
+game:GetService('RunService'):BindToRenderStep('AUTOKILL', Enum.RenderPriority.Camera.Value + 1, function()
+    if #SR.Objectives > 0 and SR.Stage == 'Game' then
+        SR.Modules.AutoKill.Objective() -- kill zombies that come close
+    elseif #SR.Objectives == 0 and SR.Stage == 'Game' then
+        SR.Modules.AutoKill.AFK() -- go to zombies and kill them all
+    end
+end)
 
 _G.Import('Modules/ClientOptimizer')
+
+Players.PlayerAdded:Connect(function(Plr)
+    task.wait()
+    if not Player:IsFriendsWith(Plr.UserId) and _G.Settings.NoNewPlayers then
+        Player:Kick('Unauthorised player joined, perhaps a mod. Automatically left the game to be safe.')
+    end
+end)
