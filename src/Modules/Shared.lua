@@ -119,7 +119,7 @@ Shared.Functions.ShootZombie = function(Zombie)
             ["Type"] = "Fire",
             ["RecoilScale"] = 1,
             ["RandomX"] = 0,
-            ["Mag"] = Stats.Mag,
+            ["Mag"] = Stats.Mag - 1,
             ["PosCF"] = CFrame.new(177.8526, 31.8774776, -5.82643795, -0.966366649, -0.0201128013, 0.256380558, 6.06448557e-05, 0.996919155, 0.0784359053, -0.257168263, 0.0758133903, -0.963388205),
             ["Direction"] = Vector3.new(-0.25638055801392, -0.078435905277729, 0.96338820457458)
         }
@@ -130,7 +130,7 @@ Shared.Functions.ShootZombie = function(Zombie)
         {
             {
                 ["AI"] = Zombie,
-                ["Velocity"] = (HRP.Position - ZHRP.Position).Unit --Vector3.new(-8.4605493545532, -2.5883860588074, 31.791812896729)
+                ["Velocity"] = Vector3.new(-8.4605493545532, -2.5883860588074, 31.791812896729)
             }
         }
     )
