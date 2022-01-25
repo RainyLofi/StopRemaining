@@ -107,6 +107,36 @@ Shared.Functions.ShootTank = function(Tank)
     OS.HitDamageable:FireServer(Tank)
 end
 
+Shared.Functions.ShootZombie = function(Zombie)
+    local Model, Stats = Shared.Functions.GetWeaponModel()
+    local Character = Player.Character; if not Character then return false end
+    local HRP = Character:FindFirstChild('HumanoidRootPart'); if not HRP then return false end
+    local ZHRP = Zombie.PrimaryPart; if not ZHRP then return false end
+
+    RE:FireServer(
+        "GlobalReplicate",
+        {
+            ["Type"] = "Fire",
+            ["RecoilScale"] = 1,
+            ["RandomX"] = 0,
+            ["Mag"] = Stats.Mag,
+            ["PosCF"] = CFrame.new(177.8526, 31.8774776, -5.82643795, -0.966366649, -0.0201128013, 0.256380558, 6.06448557e-05, 0.996919155, 0.0784359053, -0.257168263, 0.0758133903, -0.963388205),
+            ["Direction"] = Vector3.new(-0.25638055801392, -0.078435905277729, 0.96338820457458)
+        }
+    )
+
+    RE:FireServer(
+        "bb",
+        {
+            {
+                ["AI"] = Zombie,
+                ["Velocity"] = (HRP.Position - ZHRP.Position).Unit --Vector3.new(-8.4605493545532, -2.5883860588074, 31.791812896729)
+            }
+        }
+    )
+    return true
+end
+
 Shared.Functions.Pickup = function(Obj, Pos, CheckInteract)
     if Pos then Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Pos) task.wait() end
     IS.TryInteract:FireServer()
