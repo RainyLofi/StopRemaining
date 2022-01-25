@@ -106,7 +106,7 @@ _G.Import('Modules/ClientOptimizer')
 
 Players.PlayerAdded:Connect(function(Plr)
     task.wait()
-    if not Player:IsFriendsWith(Plr.UserId) and _G.Settings.NoNewPlayers then
+    if not Player:IsFriendsWith(Plr.UserId) and _G.Settings.NoNewPlayers and SR.AFKFarming then
         Player:Kick('Unauthorised player joined, perhaps a mod. Automatically left the game to be safe.')
     end
 end)
