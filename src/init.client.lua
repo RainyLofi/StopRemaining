@@ -95,10 +95,12 @@ _G.Import('Modules/ItemESP')
 local OH = _G.Import('Modules/ObjectiveHandler')
 game:GetService('RunService'):BindToRenderStep('OH', Enum.RenderPriority.Camera.Value, OH)
 game:GetService('RunService'):BindToRenderStep('AUTOKILL', Enum.RenderPriority.Camera.Value + 1, function()
-    if #SR.Objectives > 0 and SR.Stage == 'Game' then
-        SR.Modules.AutoKill.Objective() -- kill zombies that come close
-    elseif #SR.Objectives == 0 and SR.Stage == 'Game' then
-        SR.Modules.AutoKill.AFK() -- go to zombies and kill them all
+    if SR.AFKFarming then
+        if #SR.Objectives > 0 and SR.Stage == 'Game' then
+            SR.Modules.AutoKill.Objective() -- kill zombies that come close
+        elseif #SR.Objectives == 0 and SR.Stage == 'Game' then
+            SR.Modules.AutoKill.AFK() -- go to zombies and kill them all
+        end
     end
 end)
 
