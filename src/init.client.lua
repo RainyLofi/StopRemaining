@@ -61,6 +61,33 @@ local SR = {
     Signals = {},
 } -- shared
 
+--------------------------------------------------------------------------------------------
+
+local PlayerConnection = function(Plr, AlreadyPlaying)
+    task.wait()
+
+    if _G.Settings.NoNewPlayers and SR.AFKFarming and not AlreadyPlaying then
+        Player:Kick('Unauthorised player joined, perhaps a mod. Automatically left the game quickly to be safe.')
+    else
+        local Rank = Plr:GetRankInGroup(2838077)
+        if Rank > 1 then
+            Player:Kick('Tester or moderator player is in server. Rank: ' .. Rank .. ' in peak studios. Username:' .. Plr.Name .. '.')
+        end
+    end
+end
+
+task.spawn(function()
+    Players.PlayerAdded:Connect(function(Plr)
+        PlayerConnection(Plr, false)
+    end)
+
+    for _, Plr in pairs(Players:GetPlayers()) do
+        PlayerConnection(Plr, true)
+    end
+end)
+
+--------------------------------------------------------------------------------------------
+
 SR.ClientEnv = getsenv(SR.Client)
 SR.Fire2 = debug.getupvalues(SR.ClientEnv.Fire2)
 
@@ -105,10 +132,3 @@ game:GetService('RunService'):BindToRenderStep('AUTOKILL', Enum.RenderPriority.C
 end)
 
 _G.Import('Modules/ClientOptimizer')
-
-Players.PlayerAdded:Connect(function(Plr)
-    task.wait()
-    if not Player:IsFriendsWith(Plr.UserId) and _G.Settings.NoNewPlayers and SR.AFKFarming then
-        Player:Kick('Unauthorised player joined, perhaps a mod. Automatically left the game to be safe.')
-    end
-end)
