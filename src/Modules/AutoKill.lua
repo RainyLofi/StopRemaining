@@ -36,9 +36,39 @@ local OBJECTIVE_RANGE = 70 or _G.Settings.AutoKillObjectiveRange
 
 --------------------------------------------------------------------------------------------
 
+-- to avoid any weird checks on newly spawned zombies
+local AvailableZombies = {}
+local ZombieIsValid = function(Zombie, Search)
+    if not Zombie.Parent or Zombie.Parent ~= Zombies then return end
+    local HRP = Zombie:FindFirstChild('HumanoidRootPart'); if not HRP then return end
+    local Hum = Zombie:FindFirstChild('Humanoid'); if not Hum then return end
+    if Hum.Health <= 0 then return end
+
+    if Search then return table.find(AvailableZombies, Zombie) ~= nil end
+
+    return true
+end
+local AcceptZombie = function(Zombie)
+    local HRP = Zombie:FindFirstChild('HumanoidRootPart'); if not HRP then return end
+    local Hum = Zombie:FindFirstChild('Humanoid'); if not Hum then return end
+
+    local Poof = function()
+        if table.find(AvailableZombies, Zombie) then
+            table.remove(AvailableZombies, table.find(AvailableZombies, Zombie))
+        end
+    end
+
+    Zombie.AncestryChanged:Connect(Poof)
+    Hum.Died:Connect(Poof)
+end
+Zombies.ChildAdded:Connect(function(Zombie)
+    task.wait(5)
+    if ZombieIsValid(Zombie) then AcceptZombie(Zombie) end
+end)
+
 local ZombiesInRange = function(Pos, Range)
     local Candidates = {}
-    for _, Zombie in pairs(Zombies:GetChildren()) do
+    for _, Zombie in pairs(AvailableZombies) do
         local ZHRP = Zombie:FindFirstChild('HumanoidRootPart')
         if ZHRP and not Zombie:FindFirstChild('Debounce') then
             local Distance = (Pos - ZHRP.Position).Magnitude
@@ -76,11 +106,12 @@ local AFK = function() -- goes out of its way to find zombies
         local Debounce = Instance.new('Model', Candidate)
         Debounce.Name = 'Debounce'
         game:GetService('Debris'):AddItem(Candidate, 3)
-
-        for _ = 1, 4 do ShootZombie(Candidate) end
+        if ZombieIsValid(Candidate, true) then
+            for _ = 1, 4 do ShootZombie(Candidate) end
+        end
     end
 
-    task.wait(.3)
+    task.wait(1)
     SR.AFKKilling = false
 end
 
@@ -94,7 +125,9 @@ local Objective = function() -- just kills any zombies that come near the player
         Debounce.Name = 'Debounce'
         game:GetService('Debris'):AddItem(Candidate, 3)
 
-        for _ = 1, 4 do ShootZombie(Candidate) end
+        if ZombieIsValid(Candidate, true) then
+            for _ = 1, 4 do ShootZombie(Candidate) end
+        end
     end
 end
 
