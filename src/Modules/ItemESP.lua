@@ -43,6 +43,7 @@ local ESPItems = {
     'Barbed Wire',
     'Energy Drink',
     'Bandages',
+    'Molotov',
 }
 
 local CoreGui = game:GetService('CoreGui')
