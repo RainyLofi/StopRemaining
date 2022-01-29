@@ -70,8 +70,8 @@ local PlayerConnection = function(Plr, AlreadyPlaying)
         Player:Kick('Unauthorised player joined, perhaps a mod. Automatically left the game quickly to be safe.')
     else
         local Rank = Plr:GetRankInGroup(2838077)
-        if Rank > 1 then
-            Player:Kick('Tester or moderator player is in server. Rank: ' .. Rank .. ' in peak studios. Username:' .. Plr.Name .. '.')
+        if Rank > 2 then
+            Player:Kick('Moderator player is in server. Rank: ' .. Rank .. ' in peak studios. Username:' .. Plr.Name .. '.')
         end
     end
 end
