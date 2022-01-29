@@ -53,16 +53,23 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
             Weapon.Stats.RecoilShake = _G.Settings.Recoil
 
             if Weapon.Stats.WeaponType == 'Gun' and Weapon.Animations then
-                for _, Animation in pairs(Weapon.Animations) do
-                    for _, Part in pairs(Animation.Sequence) do
-                        if Part.Time >= 0.3 then
-                            Part.Time *= 0.4
-                        elseif Part.Time >= 0.05 then
-                            Part.Time = math.max(Part.Time * .8, 0.05)
+                for Name, Animation in pairs(Weapon.Animations) do
+
+                    if Name == 'Reload' then -- reload is 90% (10% faster)
+                        for _, Part in pairs(Animation.Sequence) do
+                            Part.Time = Part.Time * 0.9
+                        end
+                    else
+                        for _, Part in pairs(Animation.Sequence) do
+                            if Part.Time >= 0.3 then
+                                Part.Time *= 0.4
+                            elseif Part.Time >= 0.05 then
+                                Part.Time = math.max(Part.Time * .8, 0.05)
+                            end
                         end
                     end
 
-                    if GetTime(Animation) >= 1.4 then
+                    --[[if GetTime(Animation) >= 1.4 then
                         for _, Part in pairs(Animation.Sequence) do
                             if Part.Time >= 0.3 then
                                 Part.Time *= 0.8
@@ -70,7 +77,7 @@ for _, WeaponObj in pairs(Weapons:GetChildren()) do
                                 Part.Time = math.max(Part.Time * .5, 0.05)
                             end
                         end
-                    end
+                    end]]--
 
                 end
                 --[[if Weapon.Animations and Weapon.Animations.Reload then
